@@ -682,16 +682,13 @@
 
 <!-- ========== BOOT SCREEN ========== -->
 <div id="boot-screen">
-  <pre class="triangle-ascii">          @@
-         @@@@
-        @@@@@@
-       @@@@ @@@
-      @@@@   @@@
-     @@@@     @@@
-    @@@@       @@@
-  @@@@          @@@@
- @@@@            @@@@
-@@@@@@@@@@@@@@@@@@@@@@</pre>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
+     style="width:180px;height:180px;filter:drop-shadow(0 0 14px #00bfff) drop-shadow(0 0 30px rgba(0,191,255,0.4));animation:flicker 3s infinite">
+  <path d="M 250.323 103.646 L 409.363 379.047 L 91.282 379.047 L 250.323 103.646 Z"
+        style="fill:none;stroke:#00bfff;stroke-width:9px"/>
+  <path d="M 250.727 136.707 L 381.495 362.921 L 119.959 362.921 L 250.727 136.707 Z"
+        style="fill:none;stroke:#00bfff;stroke-width:9"/>
+</svg>
   <div class="boot-label">INICIALIZANDO SISTEMA DELTA...</div>
   <div class="loading-bar-wrap">
     <span style="color:var(--green-dim)">[</span>
@@ -730,7 +727,14 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="sidebar-logo">
-        △ DELTA<br><span>CENTRAL COMMAND</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
+             style="width:52px;height:52px;display:block;margin:0 auto 4px;filter:drop-shadow(0 0 8px #00bfff);animation:flicker 4s infinite">
+          <path d="M 250.323 103.646 L 409.363 379.047 L 91.282 379.047 L 250.323 103.646 Z"
+                style="fill:none;stroke:#00bfff;stroke-width:9px"/>
+          <path d="M 250.727 136.707 L 381.495 362.921 L 119.959 362.921 L 250.727 136.707 Z"
+                style="fill:none;stroke:#00bfff;stroke-width:9"/>
+        </svg>
+        <span>CENTRAL COMMAND</span>
       </div>
       <div class="menu-item active" onclick="showPanel('home',this)">
         <span class="num">00</span> HOME
@@ -768,14 +772,15 @@
           </div>
         </div>
         <div class="panel-body">
-          <pre class="main-logo-ascii"> ______   _______  _       _________  _______
-(  __  \ (  ____ \( \      \__   __/ (  ___  )
-| (  \  )| (    \/| (         ) (    | (   ) |
-| |   ) || (__    | |         | |    | (___) |
-| |   | ||  __)   | |         | |    |  ___  |
-| |   ) || (      | |         | |    | (   ) |
-| |_) / | (____/\| (____/\   | |    | )   ( |
-(______/ (_______/(_______/   )_(    |/     \|</pre>
+          <pre class="main-logo-ascii" style="font-size:7.5px;letter-spacing:0;overflow-x:auto" style="font-size:11px;line-height:1.15;letter-spacing:0.02em">oooooooooo.             oooo      .                    .oooooo.                                     
+`888'   `Y8b            `888    .o8                   d8P'  `Y8b                                    
+ 888      888  .ooooo.   888  .o888oo  .oooo.        888           .ooooo.  oooo d8b oo.ooooo.      
+ 888      888 d88' `88b  888    888   `P  )88b       888          d88' `88b `888""8P  888' `88b     
+ 888      888 888ooo888  888    888    .oP"888       888          888   888  888      888   888     
+ 888     d88' 888    .o  888    888 . d8(  888       `88b    ooo  888   888  888      888   888 .o. 
+o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888b     888bod8P' Y8P 
+                                                                                      888           
+                                                                                     o888o</pre>
 
           <div style="margin-top:20px">
           <div class="stats-row">
