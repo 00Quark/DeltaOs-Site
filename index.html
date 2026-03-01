@@ -349,16 +349,17 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
   }
 
   .panel {
     display: none;
     flex-direction: column;
+    width: 100%;
     height: 100%;
-    animation: fadeIn 0.2s ease;
+    background: var(--bg);
+    flex-shrink: 0;
   }
-
-  .panel.active { display: flex; }
 
   .panel-header {
     padding: 10px 20px;
@@ -902,13 +903,185 @@
   }
   .login-status.ok { color: var(--green); text-shadow: 0 0 6px var(--green); }
 
+
+  /* ══ TASKBAR ══ */
+  .sidebar {
+    width: 175px !important;
+    padding: 10px 0 !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .sidebar-logo {
+    padding: 10px 0 14px !important;
+    margin-bottom: 6px !important;
+    transition: opacity 0.15s;
+  }
+  .sidebar-logo:hover { opacity: 0.75; }
+  .sidebar-logo svg  { width:46px!important; height:46px!important; }
+  .sidebar-logo span { font-size:9px!important; letter-spacing:0.2em!important; }
+
+  /* App aberto na taskbar */
+  .taskbar-app-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 6px 6px;
+    cursor: pointer;
+    color: rgba(0,191,255,0.45);
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+    gap: 4px;
+    animation: taskFadeIn 0.2s ease;
+  }
+  @keyframes taskFadeIn {
+    from { opacity:0; transform:translateY(-6px); }
+    to   { opacity:1; transform:none; }
+  }
+  .taskbar-app-btn:hover, .taskbar-app-btn.active {
+    color: var(--green);
+    border-left-color: var(--green);
+    background: rgba(0,191,255,0.08);
+    text-shadow: 0 0 6px var(--green);
+  }
+  .taskbar-app-btn.active .task-svg { filter: drop-shadow(0 0 6px #00bfff); }
+  .task-svg {
+    width: 36px;
+    height: 36px;
+    display: block;
+    transition: filter 0.15s;
+  }
+  .task-label {
+    font-size: 7.5px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  /* ══ WINDOW animação ══ */
+  @keyframes windowOpen {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Botão fechar janela */
+  .win-close {
+    background: transparent;
+    border: 1px solid rgba(0,191,255,0.3);
+    color: rgba(0,191,255,0.6);
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    font-family: monospace;
+  }
+  .win-close:hover {
+    border-color: var(--red);
+    color: var(--red);
+    box-shadow: 0 0 10px rgba(255,34,34,0.3);
+  }
+
+  /* ══ HOME DESKTOP ══ */
+  #panel-home {
+    flex-direction: column !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    flex: 1;
+  }
+
+  .home-wallpaper {
+    position: absolute;
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'VT323', monospace;
+    font-size: 12.5px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    white-space: pre;
+    color: rgba(0,191,255,0.06);
+    pointer-events: none;
+    z-index: 0;
+    margin: 0;
+    user-select: none;
+    width: max-content;
+  }
+  .home-topbar {
+    position: relative;
+    z-index: 2;
+    padding: 14px 20px 0;
+    flex-shrink: 0;
+  }
+  .home-topbar .panel-title { font-size: 20px; letter-spacing: 0.22em; }
+  .home-topbar .panel-sub   { margin-top: 3px; }
+  .home-apps {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 24px 32px;
+    padding: 26px 28px;
+    min-height: 0;
+  }
+  .app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    color: rgba(0,191,255,0.45);
+    transition: all 0.15s;
+    width: 80px;
+  }
+  .app-icon svg {
+    width: 60px; height: 60px;
+    filter: drop-shadow(0 0 3px rgba(0,191,255,0.25));
+    transition: all 0.15s;
+  }
+  .app-icon span {
+    font-size: 8.5px; letter-spacing: 0.13em;
+    text-align: center; text-transform: uppercase; line-height: 1.3;
+  }
+  .app-icon:hover { color: var(--green); }
+  .app-icon:hover svg { filter: drop-shadow(0 0 10px #00bfff); }
+
+  .home-footer {
+    position: relative; z-index: 2;
+    border-top: 1px solid rgba(0,191,255,0.15);
+    background: rgba(2,8,16,0.92);
+    display: flex; align-items: stretch; flex-shrink: 0;
+  }
+  .home-footer-log {
+    flex: 1; padding: 9px 16px 10px; overflow: hidden;
+    display: flex; flex-direction: column; gap: 5px; min-width: 0;
+  }
+  .home-log-title {
+    font-family: 'VT323', monospace; font-size: 15px;
+    color: var(--green); letter-spacing: 0.2em; flex-shrink: 0;
+  }
+  .home-footer-log .log-stream { height: 58px; overflow-y: auto; }
+  .home-footer-right {
+    border-left: 1px solid rgba(0,191,255,0.15);
+    padding: 10px 14px;
+    display: flex; flex-direction: column;
+    align-items: flex-end; justify-content: center;
+    gap: 7px; flex-shrink: 0; min-width: 150px;
+  }
+
 </style>
 </head>
 <body>
 
 <!-- ========== LOGIN SCREEN ========== -->
 <div id="login-screen">
-  <span class="login-corner tl">DELTA_NET OS v15.0</span>
+  <span class="login-corner tl">DTOS v15.5</span>
   <span class="login-corner tr">SEC-LAYER: ACTIVE</span>
   <span class="login-corner bl">NODE: ALPHA-CENTRAL</span>
   <span class="login-corner br" id="login-clock-corner"></span>
@@ -923,16 +1096,16 @@
   </svg>
 
   <div class="login-box">
-    <div class="login-title">AUTENTICAÇÃO REQUERIDA — CLEARANCE ALPHA</div>
+    <div class="login-title">AUTENTICAÇÃO REQUERIDA</div>
 
     <div class="login-field">
       <label>OPERADOR ID</label>
-      <input type="text" id="login-user" value="" placeholder="████████████" autocomplete="off" spellcheck="false">
+      <input type="text" id="login-user" value="" placeholder=" " autocomplete="off" spellcheck="false">
     </div>
 
     <div class="login-field">
       <label>SENHA DE ACESSO</label>
-      <input type="password" id="login-pass" value="" placeholder="••••••••••••" autocomplete="off">
+      <input type="password" id="login-pass" value="" placeholder=" " autocomplete="off">
     </div>
 
     <div class="login-status" id="login-status">&nbsp;</div>
@@ -941,7 +1114,7 @@
   </div>
 
   <div style="margin-top:14px;font-size:10px;letter-spacing:0.2em;color:rgba(0,191,255,0.2)">
-    DELTA CORP &mdash; ACESSO NÃO AUTORIZADO SERÁ REGISTRADO E PROCESSADO
+    DELTA CORP. &mdash; ACESSO NÃO AUTORIZADO SERÁ REGISTRADO E PROCESSADO
   </div>
 </div>
 
@@ -969,56 +1142,27 @@
 
   <!-- Top Bar -->
   <div class="topbar">
-    <div class="sys-name">DELTA_NET OS <span style="font-family:'Share Tech Mono';font-size:11px;color:var(--green-dim)">v15.0 DEFINITIVE</span></div>
-    <div id="clock" style="letter-spacing:0.15em"></div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <div id="audio-visualizer" style="display:flex;align-items:flex-end;gap:2px;height:14px;opacity:0.5">
-        <span class="av-bar" style="width:2px;background:var(--green);height:4px;transition:height 0.1s"></span>
-        <span class="av-bar" style="width:2px;background:var(--green);height:8px;transition:height 0.1s"></span>
-        <span class="av-bar" style="width:2px;background:var(--green);height:6px;transition:height 0.1s"></span>
-        <span class="av-bar" style="width:2px;background:var(--green);height:10px;transition:height 0.1s"></span>
-        <span class="av-bar" style="width:2px;background:var(--green);height:5px;transition:height 0.1s"></span>
-      </div>
-      <button id="btn-music" onclick="toggleMusic()" style="background:transparent;border:1px solid rgba(0,191,255,0.35);color:rgba(0,191,255,0.6);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 8px;cursor:pointer;letter-spacing:0.12em;transition:all 0.15s" onmouseenter="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseleave="this.style.borderColor='rgba(0,191,255,0.35)';this.style.color='rgba(0,191,255,0.6)'">♪ BGM: OFF</button>
-      <input type="range" id="vol-slider" min="0" max="100" value="40" oninput="setVolume(this.value)" style="width:60px;accent-color:var(--green);cursor:pointer" title="VOLUME">
-    </div>
-    <div>USER: <span style="color:var(--green)">DELTA_ARCHITECT</span> &nbsp;|&nbsp; CLEARANCE: <span style="color:var(--amber)">ALPHA-7</span></div>
+    <div class="sys-name">Dt<span style="color:var(--green)">O</span>s <span style="font-family:'Share Tech Mono';font-size:11px;color:var(--green-dim)">v15.5</span></div>
+    <div>USER: <span style="color:var(--green)">ADMIN</span> &nbsp;|&nbsp; CLEARANCE: <span style="color:var(--amber)">ALPHA-7</span></div>
   </div>
 
   <div class="shell-body">
 
-    <!-- Sidebar -->
+    <!-- Taskbar -->
     <div class="sidebar">
-      <div class="sidebar-logo">
+      <!-- CENTRAL COMMAND = botão home -->
+      <div class="sidebar-logo" onclick="goHome()" style="cursor:pointer" title="HOME">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"
-             style="width:52px;height:52px;display:block;margin:0 auto 4px;filter:drop-shadow(0 0 8px #00bfff);animation:flicker 4s infinite">
-          <path d="M 250.323 103.646 L 409.363 379.047 L 91.282 379.047 L 250.323 103.646 Z"
-                style="fill:none;stroke:#00bfff;stroke-width:9px"/>
-          <path d="M 250.727 136.707 L 381.495 362.921 L 119.959 362.921 L 250.727 136.707 Z"
-                style="fill:none;stroke:#00bfff;stroke-width:9"/>
+             style="width:48px;height:48px;display:block;margin:0 auto 4px;filter:drop-shadow(0 0 8px #00bfff);animation:flicker 4s infinite">
+          <path d="M 250.323 103.646 L 409.363 379.047 L 91.282 379.047 Z" fill="none" stroke="#00bfff" stroke-width="9"/>
+          <path d="M 250.727 136.707 L 381.495 362.921 L 119.959 362.921 Z" fill="none" stroke="#00bfff" stroke-width="9" opacity=".5"/>
         </svg>
-        <span>CENTRAL COMMAND</span>
+        <span>HOME</span>
       </div>
-      <div class="menu-item active" onclick="showPanel('home',this)">
-        <span class="num">00</span> HOME
-      </div>
-      <div class="menu-item" onclick="showPanel('dss',this)">
-        <span class="num">01</span> DSS CONTRACTS
-      </div>
-      <div class="menu-item" onclick="showPanel('recrutamento',this)">
-        <span class="num">02</span> DFF RECRUITMENT
-      </div>
-      <div class="menu-item" onclick="showPanel('esquadrao',this)">
-        <span class="num">03</span> DFF SQUAD DEPLOY
-      </div>
-      <div class="menu-item" onclick="showPanel('explorer',this)">
-        <span class="num">04</span> DB EXPLORER
-      </div>
-      <div class="menu-item" onclick="showPanel('biblioteca',this)">
-        <span class="num">05</span> DELTA LIBRARY
-      </div>
+      <!-- Apps abertos aparecem aqui dinamicamente -->
+      <div id="taskbar-apps"></div>
       <div class="sidebar-bottom">
-        DELTA CORP © 2025<br>
+        DELTA CORP. © 1988<br>
         <span class="cursor-blink"></span>
       </div>
     </div>
@@ -1027,64 +1171,63 @@
     <div class="content">
 
       <!-- HOME -->
-      <div class="panel active" id="panel-home">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title">CENTRAL COMMAND OPERATING SYSTEM</div>
-            <div class="panel-sub">STATUS: ONLINE &nbsp;|&nbsp; TODOS OS SISTEMAS OPERACIONAIS</div>
+      <div class="panel" id="panel-home">
+        <!-- Wallpaper ASCII bem escuro -->
+        <pre class="home-wallpaper">oooooooooo.             oooo      .                    .oooooo.
+`888'   `Y8b            `888    .o8                   d8P'  `Y8b
+ 888      888  .ooooo.   888  .o888oo  .oooo.        888           .ooooo.  oooo d8b oo.ooooo.
+ 888      888 d88' `88b  888    888   `P  )88b       888          d88' `88b `888""8P  888' `88b
+ 888      888 888ooo888  888    888    .oP"888       888          888   888  888      888   888
+ 888     d88' 888    .o  888    888 . d8(  888       `88b    ooo  888   888  888      888   888 .o.
+o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888b     888bod8P' Y8P
+                                                                                      888
+                                                                                     o888o</pre>
+
+        <!-- Header -->
+        <div class="home-topbar">
+          <div class="panel-title">DELTA OPERATING SYSTEM</div>
+          <div class="panel-sub">NET STATUS: ONLINE &nbsp;|&nbsp; TODOS OS SISTEMAS OPERACIONAIS</div>
+        </div>
+
+        <!-- Grid de apps -->
+        <div class="home-apps">
+          <div class="app-icon" onclick="openApp('dss')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span>DSS CONTRACTS</span>
+          </div>
+          <div class="app-icon" onclick="openApp('recrutamento')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span>DFF RECRUITMENT</span>
+          </div>
+          <div class="app-icon" onclick="openApp('esquadrao')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span>DFF SQUAD DEPLOY</span>
+          </div>
+          <div class="app-icon" onclick="openApp('explorer')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span>DB EXPLORER</span>
+          </div>
+          <div class="app-icon" onclick="openApp('biblioteca')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span>DELTA LIBRARY</span>
           </div>
         </div>
-        <div class="panel-body">
-            <pre class="main-logo-ascii" style="font-size:15.5px;letter-spacing:0;overflow-x:auto" style="font-size:11px;line-height:1.15;letter-spacing:0.02em">
-oooooooooo.             oooo      .                    .oooooo.                                     
-`888'   `Y8b            `888    .o8                   d8P'  `Y8b                                    
- 888      888  .ooooo.   888  .o888oo  .oooo.        888           .ooooo.  oooo d8b oo.ooooo.      
- 888      888 d88' `88b  888    888   `P  )88b       888          d88' `88b `888""8P  888' `88b     
- 888      888 888ooo888  888    888    .oP"888       888          888   888  888      888   888     
- 888     d88' 888    .o  888    888 . d8(  888       `88b    ooo  888   888  888      888   888 .o. 
-o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888b     888bod8P' Y8P 
-                                                                                      888           
-                                                                                     o888o          
-                                                                                                    </pre>
 
-          <div style="margin-top:20px">
-          <div class="stats-row">
-            <div class="stat-card">
-              <div class="stat-val" id="stat-recrutas">0</div>
-              <div class="stat-key">Recrutas DFF</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-val" id="stat-squads">0</div>
-              <div class="stat-key">Esquadrões</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-val" id="stat-contratos">0</div>
-              <div class="stat-key">Contratos DSS</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-val" id="stat-agentes">0</div>
-              <div class="stat-key">Agentes Ativos</div>
+        <!-- Barra inferior -->
+        <div class="home-footer">
+          <div class="home-footer-log">
+            <div class="home-log-title">&#9658; LOG DE ATIVIDADES RECENTES</div>
+            <div class="log-stream" id="home-log">
+              <div class="log-ok">[BOOT] Sistema Delta Net inicializado com sucesso.</div>
+              <div class="log-ok">[SYS ] Módulos DSS, DFF, DB carregados.</div>
+              <div class="log-inf">[INFO] Aguardando comandos do operador.</div>
             </div>
           </div>
-
-          <div class="div-line"></div>
-
-          <div class="sec-hdr">LOG DE ATIVIDADES RECENTES</div>
-          <div class="log-stream" id="home-log">
-            <div class="log-ok">[BOOT] Sistema Delta Net inicializado com sucesso.</div>
-            <div class="log-ok">[SYS ] Módulos DSS, DFF, DB carregados.</div>
-            <div class="log-inf">[INFO] Aguardando comandos do operador.</div>
-          </div>
-
-          <div class="div-line"></div>
-
-          <div class="sec-hdr">ACESSO RÁPIDO</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn" onclick="showPanel('dss', document.querySelectorAll('.menu-item')[1])">DSS → NOVO CONTRATO</button>
-            <button class="btn" onclick="showPanel('recrutamento', document.querySelectorAll('.menu-item')[2])">DFF → RECRUTAR</button>
-            <button class="btn" onclick="showPanel('esquadrao', document.querySelectorAll('.menu-item')[3])">DFF → MONTAR SQUAD</button>
-            <button class="btn" onclick="showPanel('explorer', document.querySelectorAll('.menu-item')[4])">DB → EXPLORER</button>
-          </div>
+          <div class="home-footer-right">
+            <div id="clock" style="font-size:11px;letter-spacing:0.15em;color:var(--green-dim);text-align:right;white-space:nowrap"></div>
+            <button id="btn-music" onclick="toggleMusic()" style="background:transparent;border:1px solid rgba(0,191,255,0.35);color:rgba(0,191,255,0.6);font-family:'Share Tech Mono',monospace;font-size:10px;padding:2px 8px;cursor:pointer;letter-spacing:0.12em;transition:all 0.15s" onmouseenter="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseleave="this.style.borderColor='rgba(0,191,255,0.35)';this.style.color='rgba(0,191,255,0.6)'">&#9834; BGM: OFF</button>
+            <div id="audio-visualizer" style="display:flex;align-items:flex-end;gap:2px;height:14px;opacity:0.5">
+              <span class="av-bar" style="width:2px;background:var(--green);height:4px;transition:height 0.1s"></span>
+              <span class="av-bar" style="width:2px;background:var(--green);height:8px;transition:height 0.1s"></span>
+              <span class="av-bar" style="width:2px;background:var(--green);height:6px;transition:height 0.1s"></span>
+              <span class="av-bar" style="width:2px;background:var(--green);height:10px;transition:height 0.1s"></span>
+              <span class="av-bar" style="width:2px;background:var(--green);height:5px;transition:height 0.1s"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -1092,10 +1235,11 @@ o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888
       <!-- DSS CONTRACTS -->
       <div class="panel" id="panel-dss">
         <div class="panel-header">
-          <div>
+          <div style="flex:1">
             <div class="panel-title">DSS — SECURITY CONTRACTS</div>
             <div class="panel-sub">DESCARTÁVEIS / CONTRATOS TEMPORÁRIOS</div>
           </div>
+          <button class="win-close" onclick="closeApp('dss')" title="FECHAR">&#x2715;</button>
         </div>
         <div class="panel-body">
           <div class="sec-hdr">GERAR NOVO CONTRATO</div>
@@ -1123,10 +1267,11 @@ o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888
       <!-- DFF RECRUTAMENTO -->
       <div class="panel" id="panel-recrutamento">
         <div class="panel-header">
-          <div>
+          <div style="flex:1">
             <div class="panel-title">DFF — RECRUITMENT CENTER</div>
             <div class="panel-sub">GERAR / REGISTRAR IDs PERMANENTES</div>
           </div>
+          <button class="win-close" onclick="closeApp('recrutamento')" title="FECHAR">&#x2715;</button>
         </div>
         <div class="panel-body">
           <div style="display:flex;gap:20px;flex-wrap:wrap">
@@ -1165,10 +1310,11 @@ o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888
       <!-- DFF ESQUADRAO -->
       <div class="panel" id="panel-esquadrao">
         <div class="panel-header">
-          <div>
+          <div style="flex:1">
             <div class="panel-title">DFF — SQUAD DEPLOYMENT</div>
             <div class="panel-sub">MONTAR PELOTÃO TÁTICO</div>
           </div>
+          <button class="win-close" onclick="closeApp('esquadrao')" title="FECHAR">&#x2715;</button>
         </div>
         <div class="panel-body">
           <div class="form-row">
@@ -1196,10 +1342,11 @@ o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888
       <!-- DB EXPLORER -->
       <div class="panel" id="panel-explorer">
         <div class="panel-header">
-          <div>
+          <div style="flex:1">
             <div class="panel-title">DATABASE EXPLORER</div>
             <div class="panel-sub">GERENCIAR STATUS / KIA / MIA</div>
           </div>
+          <button class="win-close" onclick="closeApp('explorer')" title="FECHAR">&#x2715;</button>
         </div>
         <div class="panel-body">
           <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">
@@ -1219,10 +1366,11 @@ o888bood8P'   `Y8bod8P' o888o   "888" `Y888""8o       `Y8bood8P'  `Y8bod8P' d888
       <!-- DELTA LIBRARY -->
       <div class="panel" id="panel-biblioteca">
         <div class="panel-header">
-          <div>
+          <div style="flex:1">
             <div class="panel-title">DELTA LIBRARY &mdash; ARQUIVO CENTRAL</div>
             <div class="panel-sub">DOCUMENTOS CLASSIFICADOS &nbsp;|&nbsp; CLEARANCE NECESSARIO</div>
           </div>
+          <button class="win-close" onclick="closeApp('biblioteca')" title="FECHAR">&#x2715;</button>
         </div>
         <div class="panel-body">
           <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
@@ -1264,8 +1412,8 @@ const state = {
 
 
 // ===================== LOGIN =====================
-const LOGIN_USER = 'DELTA_ARCHITECT';
-const LOGIN_PASS = 'ALPHA-7-CLEARANCE';
+const LOGIN_USER = 'ADMIN';
+const LOGIN_PASS = 'euamoointeligencia';
 
 function loginClockCorner() {
   const now = new Date();
@@ -1360,9 +1508,20 @@ function startBoot() {
           document.getElementById('boot-screen').style.display = 'none';
           const os = document.getElementById('os-shell');
           os.style.display = 'flex';
+          // Inicia no desktop
+          document.querySelectorAll('.panel').forEach(function(p) { p.style.display = 'none'; });
+          goHome();
+          setTimeout(function() {
+            musicPlaying = true;
+            startMusic();
+            var b = document.getElementById('btn-music');
+            b.textContent = '\u266a BGM: ON';
+            b.style.borderColor = 'var(--green)';
+            b.style.color = 'var(--green)';
+            b.style.textShadow = '0 0 6px var(--green)';
+          }, 500);
           updateStats();
-          updateClock();
-          setInterval(updateClock, 1000);
+
           initSquadPanel();
         }, 800);
       }, 400);
@@ -1372,22 +1531,101 @@ function startBoot() {
 
 // ===================== CLOCK =====================
 function updateClock() {
+  const el = document.getElementById('clock');
+  if (!el) return;
   const now = new Date();
   const pad = n => String(n).padStart(2,'0');
-  document.getElementById('clock').textContent =
-    `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} &nbsp; ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const date = pad(now.getDate()) + '/' + pad(now.getMonth()+1) + '/' + now.getFullYear();
+  const time = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+  el.innerHTML = '<span style="display:block;font-size:13px;color:var(--green);letter-spacing:0.12em;text-shadow:0 0 6px var(--green)">' + time + '</span>'
+               + '<span style="display:block;font-size:9px;color:var(--green-dim);letter-spacing:0.15em;margin-top:1px">' + date + '</span>';
 }
+updateClock();
+setInterval(updateClock, 1000);
 
 // ===================== PANEL NAV =====================
-function showPanel(id, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  if (el) el.classList.add('active');
-  if (id === 'esquadrao') initSquadPanel();
-  if (id === 'explorer') resetExplorer();
-  if (id === 'biblioteca') initBiblioteca();
+// IDs dos apps e seus títulos para a taskbar
+var APP_LABELS = {
+  dss: 'DSS CONTRACTS',
+  recrutamento: 'DFF RECRUITMENT',
+  esquadrao: 'DFF SQUAD',
+  explorer: 'DB EXPLORER',
+  biblioteca: 'DELTA LIBRARY'
+};
+var openApps = []; // lista de IDs abertos
+
+// ── SISTEMA DE JANELAS ──────────────────────────────────────
+// Mostra só o panel indicado, esconde todos os outros
+function showOnly(el) {
+  document.querySelectorAll('.panel').forEach(function(p) {
+    p.style.display = 'none';
+  });
+  el.style.display = 'flex';
+  // Animação
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(-8px)';
+  requestAnimationFrame(function() {
+    el.style.transition = 'opacity 0.18s ease, transform 0.18s ease';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    setTimeout(function() { el.style.transition = ''; }, 200);
+  });
 }
+
+function goHome() {
+  showOnly(document.getElementById('panel-home'));
+  document.querySelectorAll('.taskbar-app-btn').forEach(function(b) { b.classList.remove('active'); });
+}
+
+function openApp(id) {
+  if (id === 'esquadrao') initSquadPanel();
+  if (id === 'explorer')  resetExplorer();
+  if (id === 'biblioteca') initBiblioteca();
+
+  showOnly(document.getElementById('panel-' + id));
+
+  if (!openApps.includes(id)) {
+    openApps.push(id);
+    renderTaskbar();
+  }
+  document.querySelectorAll('.taskbar-app-btn').forEach(function(b) { b.classList.remove('active'); });
+  var btn = document.querySelector('.taskbar-app-btn[data-id="' + id + '"]');
+  if (btn) btn.classList.add('active');
+}
+
+function closeApp(id) {
+  document.getElementById('panel-' + id).style.display = 'none';
+  openApps = openApps.filter(function(a) { return a !== id; });
+  renderTaskbar();
+  if (openApps.length > 0) {
+    openApp(openApps[openApps.length - 1]);
+  } else {
+    goHome();
+  }
+}
+
+function renderTaskbar() {
+  var container = document.getElementById('taskbar-apps');
+  container.innerHTML = '';
+  openApps.forEach(function(id) {
+    var btn = document.createElement('div');
+    btn.className = 'taskbar-app-btn';
+    btn.dataset.id = id;
+    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="task-svg"><path d="M250.323 103.646L409.363 379.047L91.282 379.047Z" fill="none" stroke="currentColor" stroke-width="9"/><path d="M250.727 136.707L381.495 362.921L119.959 362.921Z" fill="none" stroke="currentColor" stroke-width="9" opacity=".5"/></svg><span class="task-label">' + APP_LABELS[id] + '</span>';
+    btn.onclick = function() { openApp(id); };
+    container.appendChild(btn);
+  });
+  // Marca ativo
+  var active = document.querySelector('.panel.active');
+  if (active) {
+    var activeId = active.id.replace('panel-', '');
+    var activeBtn = document.querySelector('.taskbar-app-btn[data-id="' + activeId + '"]');
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+}
+
+// Compatibilidade com chamadas antigas no código
+function showPanel(id, el) { openApp(id); }
 
 // ===================== STATS =====================
 function updateStats() {
@@ -2835,7 +3073,7 @@ function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   masterGain = audioCtx.createGain();
-  masterGain.gain.value = 0.4;
+  masterGain.gain.value = 0.2;
   masterGain.connect(audioCtx.destination);
 }
 
@@ -2971,6 +3209,7 @@ function createNoise() {
   filt.connect(g);
   g.connect(masterGain);
   src.start();
+  allOscillators.push({ osc: src, g });
   return { src, g };
 }
 
